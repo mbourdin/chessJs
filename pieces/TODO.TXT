@@ -1,0 +1,2 @@
+gerer les coups speciaux (prise en passant,prise pion, roque, promotions) au niveau de pieces et de l'affichage des coups
+gerer les echecs (legalite des coups, fin de partie)

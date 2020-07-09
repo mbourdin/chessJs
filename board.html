@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MBJsChess</title>
+    <link href="chess.css" rel="stylesheet">
+    <script type="text/javascript" src="MoveVector.js"></script>
+    <script type="text/javascript" src="Position.js"></script>
+    <script type="text/javascript" src="ChessSquare.js"></script>
+    <script type="text/javascript" src="ChessGame.js"></script>
+    <script type="text/javascript" src="pieces/Piece.js"></script>
+    <script type="text/javascript" src="pieces/EmptyPiece.js"></script>
+    <script type="text/javascript" src="pieces/Queen.js"></script>
+    <script type="text/javascript" src="pieces/Rook.js"></script>
+    <script type="text/javascript" src="pieces/King.js"></script>
+    <script type="text/javascript" src="pieces/Bishop.js"></script>
+    <script type="text/javascript" src="pieces/Knight.js"></script>
+    <script type="text/javascript" src="pieces/Pawn.js"></script>
+    <script type="text/javascript" src="Board.js"></script>
+</head>
+<body>
+<button id="flipViewButton">Flip View</button>
+<button id="newGameButton">New Game</button>
+<span id="playerTurnContainer">Player turn :  <span id="playerTurn"> </span></span>
+<div>
+<div class="flex">
+    <div id="boardDiv">
+<table>
+    <thead>
+    </thead>
+    <tbody id="boardBody">
+    </tbody>
+</table>
+    </div>
+        <div id="moves" class="flex2col">
+            <div id="movesPlayed" class="moveButton2"><div class="fullWidth">Moves played</div></div>
+            <div id="startOfGame" class="moveButton2"><button class="fullWidth" onclick="board.game.viewHistory(0)">start of game</button></div>
+        </div>
+
+    </div>
+
+</div>
+<button id="showCurrentPositionButton">Show current position</button>
+<script type="text/javascript">
+    let board=new Board("boardBody");
+</script>
+</body>
+</html>

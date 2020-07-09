@@ -1,0 +1,50 @@
+td{
+    width: 65px;
+    height: 65px;
+}
+body{
+    background-color: darkgray;
+}
+.square0{
+    background-color: darkblue;
+}
+.square1{
+    background-color: cyan;
+}
+.whiteTurn{
+    background-color: white;
+}
+.blackTurn {
+    background-color: black;
+}
+#playerTurn{
+    display : inline-block;
+    width: 20px;
+    height: 20px;
+}
+.flex{
+    display: flex;
+}
+.flex2col{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+.moveButton {
+    width: 100px;
+    height: 20px;
+}
+.moveButton2{
+    width: 200px;
+    height: 20px;
+}
+#moves{
+    width: 200px;
+}
+.fullWidth{
+    width: 100%;
+}
+.blockMouseEvents{
+    pointer-events: none;
+    background-color: red;
+}
