@@ -59,7 +59,7 @@ class Pawn extends Piece{
         }
         return false;
     };
-    performMove=(board,initialPosition,finalPosition)=>{
+    performMove=(board,initialPosition,finalPosition,testOnly=false)=>{
         let cloned = board.clone();
         cloned.setPiece(cloned.getSquare(initialPosition).piece,finalPosition);
         cloned.setPiece(EmptyPiece.getEmpty(),initialPosition);
@@ -71,22 +71,45 @@ class Pawn extends Piece{
         {
             cloned.pepPosition=null;
         }
-        if(moveVector.x!==0)
+        if(moveVector.x!==0 && board.pepPosition!=null && finalPosition.equals(board.pepPosition))
         {
             let position=new Position(finalPosition.x,initialPosition.y);
             cloned.getSquare(position).piece=EmptyPiece.getEmpty();
         }
         let choice;
-        if(finalPosition.y===0 || finalPosition.y===7)
+        if(finalPosition.y===0 || finalPosition.y===7 )
         {
             //open modal
+            let choiceStr;
+            if(!testOnly)
+            {
+                choiceStr=window.prompt("Choisir une piece comme cible de promotion <br>" +
+                    "Q : Dame <br> N : Cavalier <br> R : Tour <br> B : Fou <br>", "Q" );
 
-            //get choice from user
-            choice=new Queen(this.color);
+            }
+            else{
+                choiceStr="Q";
+            }
+
+            switch (choiceStr){
+                case "N" :
+                    choice=new Knight(this.color);
+                    break;
+                case "R" :
+                    choice=new Rook(this.color);
+                    break;
+                case "B":
+                    choice=new Bishop(this.color);
+                    break;
+                default :
+                    choice = new Queen(this.color);
+                    break;
+            }
+            console.log(choiceStr);
             cloned.getSquare(finalPosition).piece=choice;
         }
         let success = !cloned.check();
-        if(success){
+        if(success && !testOnly){
             cloned.switchTurn();
             cloned.redrawAll();
             if(finalPosition.y===0 || finalPosition.y===7){

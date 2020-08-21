@@ -13,15 +13,21 @@ class ChessSquare{
             +'</td>');
     }
     isAttacked=(byColor,board)=>
-    {
+    {   //console.log("isAttacked",byColor,board);
         for(let i=0;i<8;i++)
         {
             for(let j=0;j<8;j++)
             {
-                let square=board[i][j];
-                if((square.piece.color===byColor)&&
-                    (square.piece.moveIsAllowed(board,square.position,this.position,true)))
+                let square=board.squares[i][j];
+                if((square.piece.color===byColor)
+                    &&
+                    (square.piece.moveIsAllowed(board,square.position,this.position,true))
+                    &&
+                    (square.piece.pathIsClear(board,square.position,this.position))
+                )
                 {
+                    // console.log("attacked by "+square.piece.getInitial() +" at " +i +","+j );
+                    // console.log(board);
                     return true;
                 }
             }

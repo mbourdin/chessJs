@@ -48,3 +48,9 @@ body{
     pointer-events: none;
     background-color: red;
 }
+.hidden{
+    visibility: hidden;
+}
+.textred{
+    color: red;
+}

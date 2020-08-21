@@ -11,10 +11,10 @@ class Board{
         this.specialmove="";
         for(let i=0;i<8;i++)
         {
-            this.squares[7-i]=new Array(8);
+            this.squares[i]=new Array(8);
             for(let j=0;j<8;j++)
             {
-                this.squares[7-i][j]=new ChessSquare(j,i);
+                this.squares[i][j]=new ChessSquare(i,j);
             }
         }
         this.currentPosition=null;
@@ -24,14 +24,12 @@ class Board{
             document.getElementById("flipViewButton").addEventListener("click",this.flipView);
             Board.init = true;
             let html = "";
-            let rowId = 7;
-            for (let column of this.squares) {
-                html += "<tr id='" + rowId + "'>";
-                for (let square of column) {
-                    html += square.toHtml();
+            for (let j=7;j>=0;j--) {
+                html += "<tr id='"+j+"'>";
+                for (let i=0;i<8;i++) {
+                    html += this.squares[i][j].toHtml();
                 }
                 html += "</tr>";
-                rowId--;
             }
             this.body.innerHTML = html;
         }
@@ -156,10 +154,15 @@ class Board{
                 }
             }
         }
-        console.log(kingPosition);
-        console.log(this);
+        //console.log(kingPosition);
+        //console.log(this);
             let result=this.getSquare(kingPosition).isAttacked(this.opponent(),this);
-        console.log(result);
+        // if(result){
+        //     console.log("check");
+        // }
+        // else {
+        //     console.log("no check");
+        // }
         return result;
     }
     setPiece(piece,position)
@@ -187,11 +190,13 @@ class Board{
     }
     handleClick=(i,j)=>{
         this.currentPosition=new Position(i, j);
-
+        console.log(this.getSquare(this.currentPosition).piece.listLegalMoves(this,this.currentPosition));
+        // console.log(this.currentPosition);
+        // console.log(this.getSquare(this.currentPosition).position);
     }
     handleRelease=(i,j)=>{
         let position=new Position(i,j);
-
+        //console.log(position);
         if(this.currentPosition &&
             !this.currentPosition.equals(position) &&
             this.getSquare(this.currentPosition).piece.moveIsAllowed(this,this.currentPosition,position)
@@ -232,6 +237,34 @@ class Board{
                 newButton.addEventListener("click",()=>{this.game.viewHistory(n)});
                 document.getElementById("moves").appendChild(newDiv);
                 newDiv.appendChild(newButton);
+                let check=this.check()
+                if(check){
+                    document.getElementById("checkWarning").classList.remove("hidden")
+                }
+                else
+                {
+                    document.getElementById("checkWarning").classList.add("hidden")
+                }
+                let legalmovescount=this.listAllLegalMoves().length;
+                console.log("legal moves :"+legalmovescount);
+                if(legalmovescount === 0){
+                    let resultspan= document.getElementById("gameResult");
+                    resultspan.classList.remove("hidden");
+                    if(check){
+                        console.log(
+                            (this.opponent()==Piece.WHITE ? "blanc" : "noir")
+                            +" a gagné" );
+
+                        resultspan.innerText=(this.opponent()==Piece.WHITE ? "blanc" : "noir")
+                            +" a gagné";
+
+                    }
+                    else
+                    {
+                        console.log("partie nulle");
+                        resultspan.innerText="partie nulle";
+                    }
+                }
             }
             else
             {
@@ -240,6 +273,19 @@ class Board{
         }
     }
 
+    listAllLegalMoves=()=>{
+        let legalMoves=[];
+        for(let i=0;i<8;i++){
+            for(let j=0;j<8;j++){
+                if(this.squares[i][j].piece.color === this.playerToMove){
+                    let tmp=this.squares[i][j].piece.listLegalMoves(board,new Position(i,j));
+                    //console.log(tmp);
+                    legalMoves=legalMoves.concat(tmp);
+                }
+            }
+        }
+        return legalMoves;
+    }
 
     clone(){
         let cloned=new Board(this.body,this.game,this.playerToMove,this.currentMoveNumber)

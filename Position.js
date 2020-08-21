@@ -14,7 +14,7 @@ class Position{
         return new MoveVector(destPos.x-this.x,destPos.y-this.y);
     }
     equals(position)
-    {
+    {   if(position == null) return false;
         return (this.x===position.x && this.y===position.y);
     }
     addVector(moveVector){

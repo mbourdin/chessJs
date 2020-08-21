@@ -30,16 +30,17 @@ class Rook extends Piece{
     getInitial() {
         return "R";
     }
-    performMove=(board,initialPosition,finalPosition)=>{
+    performMove=(board,initialPosition,finalPosition,testOnly=false)=>{
         let cloned = board.clone();
         cloned.setPiece(cloned.getSquare(initialPosition).piece,finalPosition);
         cloned.setPiece(EmptyPiece.getEmpty(),initialPosition);
         cloned.pepPosition=null;
         let success =! cloned.check();
-        if(success){
+        if(success && !testOnly){
             cloned.getSquare(finalPosition).piece.hasMoved=true;
             cloned.switchTurn();
             cloned.redrawAll();
+            board.specialmove="";
         }
 
         return {

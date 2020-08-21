@@ -33,10 +33,11 @@ class King extends Piece{
     getInitial() {
         return "K";
     }
-    performMove=(board,initialPosition,finalPosition)=>{
+    performMove=(board,initialPosition,finalPosition,testOnly=false)=>{
         let cloned = board.clone();
         cloned.setPiece(cloned.getSquare(initialPosition).piece,finalPosition);
         cloned.setPiece(EmptyPiece.getEmpty(),initialPosition);
+        cloned.pepPosition=null;
         let moveVector=initialPosition.vectorTo(finalPosition);
         if(moveVector.x===2){
             let rookPosition=new Position(7,initialPosition.y);
@@ -55,7 +56,7 @@ class King extends Piece{
             cloned.getSquare(rookPosition).piece=EmptyPiece.getEmpty();
         }
             let success = !cloned.check();
-        if(success){
+        if(success && !testOnly){
             cloned.getSquare(finalPosition).piece.hasMoved=true;
             cloned.switchTurn();
             cloned.redrawAll();
